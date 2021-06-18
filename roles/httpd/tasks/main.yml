@@ -1,0 +1,13 @@
+---
+- name: install apache
+  yum:
+    name: httpd
+    state: latest
+- name: change listen port
+  template:
+    src: httpd.conf
+    dest: /etc/httpd/conf/httpd.conf
+- name: enabled httpd
+  service: name=httpd enabled=yes
+
+

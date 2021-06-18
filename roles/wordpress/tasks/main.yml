@@ -1,0 +1,70 @@
+---
+- name: creatin user
+  user: name=www-data 
+
+- name: creating database
+  mysql_db:
+    name: "{{ db_name }}"
+    state: "present"
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+
+- name: creating database user
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    priv: "{{ db_name }}.*:ALL"
+    state: "present"
+    login_user: "root"
+    login_password: "{{ mysql_root_password}}"
+
+- name: create nginx access log
+  copy:
+    content: ""
+    dest: '/var/log/nginx/{{ domain }}.access.log'
+    force: no
+- name: create nginx error log
+  copy:
+    content: ""
+    dest: '/var/log/nginx/{{ domain }}.error.log'
+    force: no
+
+- name: create httpd access log
+  copy:
+    content: ""
+    dest: '/var/log/httpd/{{ domain }}.access.log'
+    force: no
+
+- name: create httpd error log
+  copy:
+    content: ""
+    dest: '/var/log/httpd/{{ domain }}.error.log'
+    force: no
+
+
+- name: install nginx configuration
+  template:
+    src: nginx_site_available.conf
+    dest: /etc/nginx/conf.d/{{ domain }}.conf
+  notify: restart nginx
+
+- name: install apache configuration
+  template: 
+    src: httpd_site_available.conf
+    dest: /etc/httpd/conf.d/{{ domain }}.conf
+  notify: restart httpd
+
+- name: download wordpress
+  get_url:
+    url: "{{ download_url }}"
+    dest: "/tmp/latest.tar.gz"
+    
+- name: creating directory for WordPress
+  file:
+    path: '{{ wpdirectory }}'
+    state: "directory"
+    owner: "apache"
+    group: "www-data"
+
+- name: unpack wordpress
+  shell: "tar xvfz /tmp/latest.tar.gz -C {{ wpdirectory }} && mv {{ wpdirectory }}/wordpress {{ wpdirectory }}/{{ domain }} && chown -R www-data:www-data {{ wpdirectory }}"

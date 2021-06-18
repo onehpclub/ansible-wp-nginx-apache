@@ -1,0 +1,10 @@
+---
+- name: install memcached server
+  yum:
+    name: memcached
+    state: latest
+- name: start and enable memcached server  
+  service:
+    name: memcached
+    state: started
+    enabled: yes

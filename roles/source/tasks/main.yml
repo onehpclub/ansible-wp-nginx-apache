@@ -1,0 +1,16 @@
+---
+- name: intsall group of utills
+  yum:
+    name: '{{ item }}'
+    state: latest
+  with_items:
+    - mc
+    - wget
+    - tar
+    - vim
+    - psmisc
+    - net-tools
+    - git
+    - ncdu
+    - htop
+    - telnet

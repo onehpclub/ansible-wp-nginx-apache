@@ -1,0 +1,22 @@
+- hosts: centos
+  vars:
+    - mysql_root_password: "!XyvT!Z6/Root"
+    - download_url: "https://wordpress.org/latest.tar.gz"
+    - wpdirectory: '/var/www/sites'
+    - db_name: "wordpress"
+    - db_user: "wordpress"
+    - db_password: "!XyvT!Z6/WP"
+    - domain: "seahornets.by"
+
+  roles:
+    - { role: update }
+    - { role: repos }
+    - { role: source }
+    - { role: firewalld }
+    - { role: nginx }
+    - { role: httpd }
+    - { role: mysql }
+    - { role: php }
+    - { role: memcached }
+    - { role: wordpress }
+

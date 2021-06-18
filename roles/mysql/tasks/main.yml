@@ -1,0 +1,25 @@
+- name: Install MySQL 5.7 repo
+  yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
+- name: Install MySQL 5.7
+  yum: pkg={{ item }}
+  with_items:
+    - mysql-community-server.x86_64
+    - mysql-community-client.x86_64
+    - MySQL-python
+- name: Start the MySQL service
+  service: name=mysqld state=started enabled=true
+- name: find root password
+  shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"
+  register: mysql_temp
+  tags: register
+- name: create my.cnf  
+  shell: |
+    echo [client] > /root/.my.cnf
+    echo user=root >> /root/.my.cnf
+    echo password="{{ mysql_temp.stdout }}" >> /root/.my.cnf
+- name: set new pass
+  shell: |
+    mysql  --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_password }}'; flush privileges; "
+    echo [client] > /root/.my.cnf
+    echo user=root >> /root/.my.cnf
+    echo password="{{ mysql_root_password }}" >> /root/.my.cnf

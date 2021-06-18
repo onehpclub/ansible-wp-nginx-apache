@@ -1,0 +1,23 @@
+---
+- name: install php74
+  yum:
+    name: php74-php
+    state: latest
+- name: install modules php
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - php74
+    - php74-php-pecl-memcache.x86_64
+    - php74-php-pecl-memcached.x86_64
+    - php74-php-xml.x86_64
+    - php74-php-xmlrpc.x86_64
+    - php74-php-mbstring.x86_64
+    - php74-php-gd.x86_64
+    - php74-php-fpm.x86_64
+    - php74-php-pecl-mysql.x86_64
+- name: link php74 on php
+  file: 
+    src: '/usr/bin/php74'
+    dest: '/usr/bin/php'
+    state: link

@@ -1,0 +1,22 @@
+---
+- name: restart service firewalld
+  ansible.builtin.service:
+    name: firewalld
+    state: restarted
+- name: Open 80 port
+  ansible.posix.firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+- name: Open 443 port
+  ansible.posix.firewalld:
+    service: https
+    permanent: yes
+    state: enabled
+- name: restart service firewalld
+  ansible.builtin.service:
+    name: firewalld
+    state: restarted
+- name: enabled service firewalld
+  service: name=firewalld enabled=yes
+        

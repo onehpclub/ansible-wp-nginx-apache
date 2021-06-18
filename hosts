@@ -1,0 +1,4 @@
+[centos]
+paladin ansible_ssh_host=178.172.138.14 ansible_ssh_user=root 
+shaman ansible_ssh_host=178.172.138.21 ansible_ssh_user=root 
+priest ansible_ssh_host=178.172.138.56 ansible_ssh_user=root
