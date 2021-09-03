@@ -3,7 +3,7 @@
   yum:
     name: memcached
     state: latest
-- name: start and enable memcached server  
+- name: start and enable memcached server
   service:
     name: memcached
     state: started

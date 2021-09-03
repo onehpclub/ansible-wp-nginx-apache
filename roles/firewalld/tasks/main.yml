@@ -19,4 +19,3 @@
     state: restarted
 - name: enabled service firewalld
   service: name=firewalld enabled=yes
-        

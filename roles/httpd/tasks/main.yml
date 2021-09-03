@@ -9,5 +9,3 @@
     dest: /etc/httpd/conf/httpd.conf
 - name: enabled httpd
   service: name=httpd enabled=yes
-
-

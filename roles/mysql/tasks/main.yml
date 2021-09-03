@@ -1,3 +1,4 @@
+---
 - name: Install MySQL 5.7 repo
   yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm state=present
 - name: Install MySQL 5.7
@@ -12,7 +13,7 @@
   shell: "echo `grep 'temporary.*root@localhost' /var/log/mysqld.log | sed 's/.*root@localhost: //'`"
   register: mysql_temp
   tags: register
-- name: create my.cnf  
+- name: create my.cnf
   shell: |
     echo [client] > /root/.my.cnf
     echo user=root >> /root/.my.cnf
